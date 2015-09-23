@@ -12,21 +12,23 @@ class Feed extends AbstractModel
     /**
      * Get the feed
      *
-     * @param  array   $feedHeaders
-     * @param  string  $feedType
-     * @param  int     $feedLimit
-     * @param  boolean $fields
+     * @param  array               $feedHeaders
+     * @param  string              $feedType
+     * @param  int                 $feedLimit
+     * @param  \Pop\Module\Manager $modules
      * @return Writer
      */
-    public function getFeed($feedHeaders, $feedType, $feedLimit, $fields)
+    public function getFeed($feedHeaders, $feedType, $feedLimit, \Pop\Module\Manager $modules)
     {
         $items = [];
         $feed  = Table\Feed::findAll();
 
         foreach ($feed->rows() as $f) {
             if ($f->type == 'content') {
-                if ($fields) {
+                if ($modules->isRegistered('phire-fields')) {
                     $item = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', ['id' => $f->id]);
+                } else if ($modules->isRegistered('phire-fields-plus')) {
+                    $item = \Phire\FieldsPlus\Model\FieldValue::getModelObject(DB_PREFIX . 'content', 'Phire\\Content\\Model\\Content', $f->id);
                 } else {
                     $item = new \Phire\Content\Model\Content();
                     $item->getById($f->id);
@@ -35,8 +37,10 @@ class Feed extends AbstractModel
                     $items[] = $this->formatItem($item, 'content', $feedType);
                 }
             } else if ($f->type == 'media') {
-                if ($fields) {
+                if ($modules->isRegistered('phire-fields')) {
                     $item = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Media\Model\Media', ['id' => $f->id]);
+                } else if ($modules->isRegistered('phire-fields-plus')) {
+                    $item = \Phire\FieldsPlus\Model\FieldValue::getModelObject(DB_PREFIX . 'media', 'Phire\\Media\\Model\\Media', $f->id);
                 } else {
                     $item = new \Phire\Media\Model\Media();
                     $item->getById($f->id);

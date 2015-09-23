@@ -20,7 +20,7 @@ class IndexController extends AbstractController
             $this->application->module('phire-feed')['feed_headers'],
             $this->application->module('phire-feed')['feed_type'],
             $this->application->module('phire-feed')['feed_limit'],
-            $this->application->isRegistered('phire-fields')
+            $this->application->modules()
         );
 
         echo $writer;
