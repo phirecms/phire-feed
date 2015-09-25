@@ -27,8 +27,6 @@ class Feed extends AbstractModel
             if ($f->type == 'content') {
                 if ($modules->isRegistered('phire-fields')) {
                     $item = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Content\Model\Content', ['id' => $f->id]);
-                } else if ($modules->isRegistered('phire-fields-plus')) {
-                    $item = \Phire\FieldsPlus\Model\FieldValue::getModelObject(DB_PREFIX . 'content', 'Phire\\Content\\Model\\Content', $f->id);
                 } else {
                     $item = new \Phire\Content\Model\Content();
                     $item->getById($f->id);
@@ -39,8 +37,6 @@ class Feed extends AbstractModel
             } else if ($f->type == 'media') {
                 if ($modules->isRegistered('phire-fields')) {
                     $item = \Phire\Fields\Model\FieldValue::getModelObject('Phire\Media\Model\Media', ['id' => $f->id]);
-                } else if ($modules->isRegistered('phire-fields-plus')) {
-                    $item = \Phire\FieldsPlus\Model\FieldValue::getModelObject(DB_PREFIX . 'media', 'Phire\\Media\\Model\\Media', $f->id);
                 } else {
                     $item = new \Phire\Media\Model\Media();
                     $item->getById($f->id);
