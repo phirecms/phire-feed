@@ -41,6 +41,7 @@ class Feed extends AbstractModel
                     $item = new \Phire\Media\Model\Media();
                     $item->getById($f->id);
                 }
+
                 $item->publish = $item->uploaded;
                 $items[] = $this->formatItem($item, 'media', $feedType);
             }
@@ -72,9 +73,10 @@ class Feed extends AbstractModel
      *
      * @param  \ArrayObject $item
      * @param  string       $type
+     * @param  string       $feedType
      * @return array
      */
-    public function formatItem($item, $type)
+    public function formatItem($item, $type, $feedType)
     {
         if ($type == 'content') {
             $item->link    = 'http://' . $_SERVER['HTTP_HOST'] . BASE_PATH . $item->uri;
@@ -124,6 +126,13 @@ class Feed extends AbstractModel
 
             if (isset($item->description)) {
                 $item->summary = $item->description;
+                if ($feedType == 'rss') {
+                    $item->description = '<![CDATA[<img src="' . $item->link . '" width="320" /><p>' . $item->description . '</p>]]>';
+                }
+            } else {
+                if ($feedType == 'rss') {
+                    $item->description = '<![CDATA[<img src="' . $item->link . '" width="320" />]]>';
+                }
             }
 
             unset($item->id);
