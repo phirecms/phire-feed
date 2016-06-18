@@ -86,7 +86,7 @@ class Feed
      */
     public static function getAll(AbstractController $controller, Application $application)
     {
-        if ((!$_POST) && ($controller->hasView()) && (null !== $controller->view()->form) &&
+        if ((!$_POST) && ($controller->hasView()) && (null !== $controller->view()->form) && ($controller->view()->form !== false) &&
             ((int)$controller->view()->form->id != 0) && (null !== $controller->view()->form) &&
             ($controller->view()->form instanceof \Pop\Form\Form)) {
             $type = $controller->view()->form->feed_type;
