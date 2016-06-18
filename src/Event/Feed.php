@@ -111,7 +111,7 @@ class Feed
     public static function save(AbstractController $controller, Application $application)
     {
         if (($_POST) && ($controller->hasView()) && (null !== $controller->view()->id) &&
-            (null !== $controller->view()->form) && ($controller->view()->form instanceof \Pop\Form\Form)) {
+            (null !== $controller->view()->form) && ($controller->view()->form !== false) && ($controller->view()->form instanceof \Pop\Form\Form)) {
             $id   = $controller->view()->id;
             $feed = $controller->view()->form->feed;
             $type = $controller->view()->form->feed_type;
