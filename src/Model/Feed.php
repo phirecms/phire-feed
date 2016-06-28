@@ -92,9 +92,9 @@ class Feed extends AbstractModel
     /**
      * Format the feed item
      *
-     * @param  \ArrayObject $item
-     * @param  string       $type
-     * @param  string       $feedType
+     * @param  mixed  $item
+     * @param  string $type
+     * @param  string $feedType
      * @return array
      */
     public function formatItem($item, $type, $feedType)
